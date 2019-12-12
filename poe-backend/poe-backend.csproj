@@ -17,8 +17,4 @@
       <_ContentIncludedByDefault Remove="Properties\launchSettings.json" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
 </Project>
