@@ -33,7 +33,10 @@ namespace poe_backend
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<PoeAppDbContext>();
+
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
+                
             }
 
             if (env.IsDevelopment())

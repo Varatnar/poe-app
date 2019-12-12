@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using poe_backend.Models.ItemData;
+﻿using Microsoft.EntityFrameworkCore;
+using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.Database
 {
     public class PoeAppDbContext : DbContext
     {
-        public DbSet<BaseItem> BaseItems { get; set; }
+        public DbSet<OneHandedSword> OneHandedSwords { get; set; }
+        public DbSet<TwoHandedSword> TwoHandedSwords { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,19 +16,7 @@ namespace poe_backend.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BaseItem>()
-                        .Property(item => item.Implicits)
-                        .HasConversion(
-                            v => string.Join(';', v),
-                            v => new List<string>(
-                                v.Split(';', StringSplitOptions.RemoveEmptyEntries)));
-            
-            modelBuilder.Entity<BaseItem>()
-                        .Property(item => item.Tags)
-                        .HasConversion(
-                            v => string.Join(';', v),
-                            v => new List<string>(
-                                v.Split(';', StringSplitOptions.RemoveEmptyEntries)));
+            //Place Holder
         }
     }
 }

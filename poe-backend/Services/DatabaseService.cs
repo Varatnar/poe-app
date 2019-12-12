@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using poe_backend.Database;
-using poe_backend.Models.ItemData;
+using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.Services
 {
@@ -13,9 +13,26 @@ namespace poe_backend.Services
             _database = database;
         }
 
-        public IEnumerable<BaseItem> GetAll()
+        public IEnumerable<TwoHandedSword> GetAllTwoHandedSwords()
         {
-            return _database.BaseItems;
+            return _database.TwoHandedSwords;
+        }
+
+        public void AddOneHandedWeapon(OneHandedSword weapon)
+        {
+            _database.OneHandedSwords.Add(weapon);
+            _database.SaveChanges();
+        }
+
+        public void AddTwoHandedWeapon(TwoHandedSword weapon)
+        {
+            _database.TwoHandedSwords.Add(weapon);
+            _database.SaveChanges();
+        }
+
+        public IEnumerable<OneHandedSword> GetAllOneHandedSword()
+        {
+            return _database.OneHandedSwords;
         }
     }
 }

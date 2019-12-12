@@ -1,27 +1,24 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace poe_backend.Models.ItemData
 {
-    //todo: might? create on class for each type (weapon/armor/flask/etc)
-    public class BaseItem
+    //todo: might? create one class for each type (weapon/armor/flask/etc)
+    public abstract class BaseItem
     {
         [Key]
         public string Key { get; set; }
 
         //----
 
-        public int DroptLevel { get; set; }
+        public int DropLevel { get; set; }
 
         //todo: Change string for actual implicit mod object
-        public List<string> Implicits { get; set; }
+//        public List<string> Implicits { get; set; }
 
-        //todo: Maybe change the both of those thing for one Dimension class
         public int InventoryHeight { get; set; }
         public int InventoryWidth { get; set; }
 
-        //todo: Change string for Item Class object
-        public string ItemClass { get; set; }
+        public abstract ItemClass ItemClass { get; }
 
         public string Name { get; set; }
 
@@ -29,11 +26,11 @@ namespace poe_backend.Models.ItemData
         public string ReleaseState { get; set; }
 
         //todo: Change for list of Tag object
-        public List<string> Tags { get; set; }
+//        public List<string> Tags { get; set; }
 
         public SpriteData VisualIdentity { get; set; }
 
-//        public ItemRequirements? Requirements { get; set; }
+        public ItemRequirements Requirements { get; set; }
 
 //        public IItemProperties Properties { get; set; }
 
