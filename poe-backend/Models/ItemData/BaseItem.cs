@@ -33,7 +33,7 @@ namespace poe_backend.Models.ItemData
 
         public SpriteData VisualIdentity { get; set; }
 
-        public ItemRequirements? Requirements { get; set; }
+//        public ItemRequirements? Requirements { get; set; }
 
 //        public IItemProperties Properties { get; set; }
 

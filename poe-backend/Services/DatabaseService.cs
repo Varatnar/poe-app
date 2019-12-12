@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using poe_backend.Database;
-using poe_backend.Models;
+using poe_backend.Models.ItemData;
 
 namespace poe_backend.Services
 {
@@ -13,6 +12,10 @@ namespace poe_backend.Services
         {
             _database = database;
         }
-        
+
+        public IEnumerable<BaseItem> GetAll()
+        {
+            return _database.BaseItems;
+        }
     }
 }

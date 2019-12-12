@@ -23,7 +23,7 @@ namespace poe_backend
             services.AddControllers();
 
             services.AddSingleton(typeof(PoeAppDbContext));
-            services.AddSingleton(typeof(DatabaseService));
+            services.AddSingleton(typeof(IPoeAppDatabase), typeof(DatabaseService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +35,7 @@ namespace poe_backend
                 var context = serviceScope.ServiceProvider.GetRequiredService<PoeAppDbContext>();
                 context.Database.EnsureCreated();
             }
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
