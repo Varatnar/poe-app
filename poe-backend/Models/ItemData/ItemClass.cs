@@ -3,6 +3,11 @@
     public enum ItemClass
     {
         OneHandedSword,
-        TwoHandedSword
+        TwoHandedSword,
+        Amulet,
+        BodyArmour,
+        Boots,
+        Gloves,
+        Helmet
     }
 }

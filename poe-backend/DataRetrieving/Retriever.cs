@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using poe_backend.Database;
 using poe_backend.Models.ItemData;
+using poe_backend.Models.ItemData.Armours;
+using poe_backend.Models.ItemData.Jewelery;
 using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.DataRetrieving
@@ -46,7 +48,27 @@ namespace poe_backend.DataRetrieving
                         break;
 
                     case "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords":
+                    case "Metadata/items/Weapons/OneHandWeapons/OneHandSwords":
                         InsertOneHandedWeapons(context, child);
+                        break;
+                    case "Metadata/Items/Amulets":
+                    case "Metadata/Items/Amulet":
+                        InsertAmulet(context, child);
+                        break;
+                    case "Metadata/Items/Amulets/Talismans":
+                        InsertTalisman(context, child);
+                        break;
+                    case "Metadata/Items/Armours/BodyArmours":
+                        InsertBodyArmour(context, child);
+                        break;
+                    case "Metadata/Items/Armours/Boots":
+                        InsertBoots(context, child);
+                        break;
+                    case "Metadata/Items/Armours/Gloves":
+                        InsertGloves(context, child);
+                        break;
+                    case "Metadata/Items/Armours/Helmets":
+                        InsertHelmet(context, child);
                         break;
                     default:
                         if (!unprocessedKey.Contains(typeKey))
@@ -68,6 +90,41 @@ namespace poe_backend.DataRetrieving
             context.SaveChanges();
         }
 
+        private void InsertHelmet(PoeAppDbContext context, JProperty data)
+        {
+            var helmet = CreateWithBasicData<Helmet>(data);
+
+            context.Helmets.Add(helmet);
+        }
+
+        private void InsertGloves(PoeAppDbContext context, JProperty data)
+        {
+            var gloves = CreateWithBasicData<Glove>(data);
+
+            context.Gloves.Add(gloves);
+        }
+
+        private void InsertBoots(PoeAppDbContext context, JProperty data)
+        {
+            var boots = CreateWithBasicData<Boot>(data);
+
+            context.Boots.Add(boots);
+        }
+
+        private void InsertBodyArmour(PoeAppDbContext context, JProperty data)
+        {
+            var bodyArmour = CreateWithBasicData<BodyArmour>(data);
+
+            context.BodyArmours.Add(bodyArmour);
+        }
+
+        private void InsertTalisman(PoeAppDbContext context, JProperty data)
+        {
+            var talisman = CreateWithBasicData<Talisman>(data);
+
+            context.Talismans.Add(talisman);
+        }
+
         private void InsertTwoHandedWeapons(PoeAppDbContext context, JProperty data)
         {
             var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(data);
@@ -80,6 +137,13 @@ namespace poe_backend.DataRetrieving
             var oneHandWeapon = CreateWithBasicData<OneHandedSword>(data);
 
             context.OneHandedSwords.Add(oneHandWeapon);
+        }
+
+        private void InsertAmulet(PoeAppDbContext context, JProperty data)
+        {
+            var amulet = CreateWithBasicData<Amulet>(data);
+
+            context.Amulets.Add(amulet);
         }
 
         private T CreateWithBasicData<T>(JProperty dataHolder) where T : BaseItem, new()

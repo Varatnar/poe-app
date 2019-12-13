@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using poe_backend.Models.ItemData;
+using poe_backend.Models.ItemData.Armours;
+using poe_backend.Models.ItemData.Jewelery;
 using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.Database
@@ -8,6 +10,13 @@ namespace poe_backend.Database
     {
         public DbSet<OneHandedSword> OneHandedSwords { get; set; }
         public DbSet<TwoHandedSword> TwoHandedSwords { get; set; }
+        public DbSet<Amulet> Amulets { get; set; }
+        public DbSet<Talisman> Talismans { get; set; }
+        public DbSet<BodyArmour> BodyArmours { get; set; }
+        public DbSet<Boot> Boots { get; set; }
+        public DbSet<Glove> Gloves { get; set; }
+        public DbSet<Helmet> Helmets { get; set; }
+
         public DbSet<PoeTag> PoeTags { get; set; }
 
         public DbSet<ItemTag> ItemTags { get; set; }
