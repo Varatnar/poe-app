@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "poe-backend", "poe-backend\poe-backend.csproj", "{FC7C6C0D-9207-4B71-9CC5-C577342F0064}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poe-Backend", "Poe-Backend\Poe-Backend.csproj", "{FC7C6C0D-9207-4B71-9CC5-C577342F0064}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poe-Backend.Test", "Poe-Backend.Test\Poe-Backend.Test.csproj", "{685674EB-1247-4C95-A811-60FE6C79DD94}"
 EndProject
