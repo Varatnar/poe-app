@@ -7,28 +7,27 @@ namespace poe_backend.Models.ItemData
     public abstract class BaseItem
     {
         [Key]
-        public string Key { get; set; }
+        public string Key { get; set; } //done
 
         //----
 
-        public int DropLevel { get; set; }
+        public int DropLevel { get; set; } //done
 
 
 //        public List<PoeImplicit> Implicits { get; set; }
 
-        public int InventoryHeight { get; set; }
-        public int InventoryWidth { get; set; }
+        public int InventoryHeight { get; set; } //done
+        public int InventoryWidth { get; set; } //done
 
-        public abstract ItemClass ItemClass { get; }
+        public abstract ItemClass ItemClass { get; } //todo: verify
 
-        public string Name { get; set; }
+        public string Name { get; set; } //done
 
-        //todo: see https://github.com/brather1ng/RePoE/blob/master/RePoE/constants.py#L173 for possible values
-        public string ReleaseState { get; set; }
+        public string ReleaseState { get; set; } //done
 
-        public List<ItemTag> PoeTagsLink { get; set; }
+        public List<ItemTag> PoeTagsLink { get; set; } //done
 
-        public SpriteData VisualIdentity { get; set; }
+        public SpriteData VisualIdentity { get; set; } //done
 
         public ItemRequirements Requirements { get; set; }
 
@@ -37,6 +36,6 @@ namespace poe_backend.Models.ItemData
         //todo: seems to only be with flask, will comment for now
 //        public Buff GrantsBuff { get; set; }
 
-        public string Domain { get; set; }
+        public string Domain { get; set; } //done
     }
 }

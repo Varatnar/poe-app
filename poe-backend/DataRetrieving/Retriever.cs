@@ -95,6 +95,8 @@ namespace poe_backend.DataRetrieving
                 Domain = dataHolder.Value.Value<string>("domain")
             };
 
+            // ----- PoeTag section
+
             var dataTags = dataHolder.Value.Value<JArray>("tags");
 
             foreach (var dataTag in dataTags)
@@ -114,6 +116,17 @@ namespace poe_backend.DataRetrieving
 
                 item.PoeTagsLink.Add(newItemTag);
             }
+
+            // ---- SpriteData section
+
+            var identityHolder = dataHolder.Value.Value<JObject>("visual_identity");
+            var spriteDataId = identityHolder.Value<string>("id");
+            var spriteDataDdsFile = identityHolder.Value<string>("dds_file");
+
+
+            var spriteDate = RetrieveOrCreateSpriteData(spriteDataId, spriteDataDdsFile);
+
+            item.VisualIdentity = spriteDate;
 
             return item;
         }
@@ -139,6 +152,35 @@ namespace poe_backend.DataRetrieving
 
 
             return tag;
+        }
+
+        private readonly List<SpriteData> _cachedSpriteData = new List<SpriteData>();
+
+        private SpriteData RetrieveOrCreateSpriteData(string spriteDataId, string spriteDataDds)
+        {
+            foreach (var cachedSpriteData in _cachedSpriteData)
+            {
+                if (cachedSpriteData.Id.Equals(spriteDataId))
+                {
+                    if (!cachedSpriteData.DdsFile.Equals(spriteDataDds))
+                    {
+                        throw new Exception("Sprite Data Id was no unique !");
+                    }
+
+                    return cachedSpriteData;
+                }
+            }
+
+            var spriteData = new SpriteData
+            {
+                Id = spriteDataId,
+                DdsFile = spriteDataDds
+            };
+
+            _cachedSpriteData.Add(spriteData);
+
+
+            return spriteData;
         }
     }
 }
