@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using poe_backend.Database;
+using poe_backend.Models.ItemData;
 using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.Controllers
@@ -9,54 +11,28 @@ namespace poe_backend.Controllers
     [Route("[controller]")]
     public class ItemController : ControllerBase
     {
-        private readonly IPoeAppDatabase _databaseService;
-
-        public ItemController(IPoeAppDatabase databaseService)
-        {
-            _databaseService = databaseService;
-        }
-
         [HttpGet]
         [Route("oneHandSwords")]
         public IEnumerable<OneHandedSword> GetAllOneHandedSwords()
         {
-            return _databaseService.GetAllOneHandedSword();
+            using var context = new PoeAppDbContext();
+            return context.OneHandedSwords.ToList();
         }
 
         [HttpGet]
         [Route("twoHandSwords")]
         public IEnumerable<TwoHandedSword> GetAllTwoHandedSwords()
         {
-            return _databaseService.GetAllTwoHandedSwords();
+            using var context = new PoeAppDbContext();
+            return context.TwoHandedSwords.ToList();
         }
 
-
         [HttpGet]
-        [Route("add")]
-        public void Add()
+        [Route("tags")]
+        public IEnumerable<PoeTag> GetTags()
         {
-            var oneWeapon = new OneHandedSword
-            {
-                Key = "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords/OneHandSword18",
-                Domain = "item",
-                DropLevel = 60,
-                InventoryHeight = 2,
-                InventoryWidth = 2,
-                Name = "Gladius"
-            };
-
-            var twoWeapon = new TwoHandedSword
-            {
-                Key = "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords/TowHandSword18",
-                Domain = "item",
-                DropLevel = 60,
-                InventoryHeight = 4,
-                InventoryWidth = 2,
-                Name = "Gladius"
-            };
-
-            _databaseService.AddOneHandedWeapon(oneWeapon);
-            _databaseService.AddTwoHandedWeapon(twoWeapon);
+            using var context = new PoeAppDbContext();
+            return context.PoeTags.ToList();
         }
     }
 }

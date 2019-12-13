@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using poe_backend.Database;
-using poe_backend.Services;
+using poe_backend.DataRetrieving;
 
 namespace poe_backend
 {
@@ -21,22 +21,21 @@ namespace poe_backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.AddSingleton(typeof(PoeAppDbContext));
-            services.AddSingleton(typeof(IPoeAppDatabase), typeof(DatabaseService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Make sure a database structure exist, in case it doesnt it creates it
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            // Reset database and inject poe data
+            using (var context = new PoeAppDbContext())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<PoeAppDbContext>();
+                var retriever = new Retriever();
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-                
+
+                retriever.InitializeBaseItemTable(context);
+                context.SaveChanges();
             }
 
             if (env.IsDevelopment())

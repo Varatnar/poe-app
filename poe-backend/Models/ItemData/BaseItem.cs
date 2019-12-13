@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace poe_backend.Models.ItemData
 {
@@ -12,8 +13,8 @@ namespace poe_backend.Models.ItemData
 
         public int DropLevel { get; set; }
 
-        //todo: Change string for actual implicit mod object
-//        public List<string> Implicits { get; set; }
+
+//        public List<PoeImplicit> Implicits { get; set; }
 
         public int InventoryHeight { get; set; }
         public int InventoryWidth { get; set; }
@@ -25,8 +26,7 @@ namespace poe_backend.Models.ItemData
         //todo: see https://github.com/brather1ng/RePoE/blob/master/RePoE/constants.py#L173 for possible values
         public string ReleaseState { get; set; }
 
-        //todo: Change for list of Tag object
-//        public List<string> Tags { get; set; }
+        public List<ItemTag> ItemTags { get; set; } = new List<ItemTag>();
 
         public SpriteData VisualIdentity { get; set; }
 
