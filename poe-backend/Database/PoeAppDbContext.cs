@@ -9,37 +9,35 @@ namespace poe_backend.Database
         public DbSet<OneHandedSword> OneHandedSwords { get; set; }
         public DbSet<TwoHandedSword> TwoHandedSwords { get; set; }
         public DbSet<PoeTag> PoeTags { get; set; }
-        
-        public DbSet<ItemTag> ItemTags { get; set; }
-        
-        public DbSet<BaseItem> Items { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<ItemTag> ItemTags { get; set; }
+
+        public PoeAppDbContext() : base(new DbContextOptionsBuilder<PoeAppDbContext>()
+                                        .UseSqlite(@"Data Source=Data.db;")
+                                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                                        .EnableSensitiveDataLogging()
+                                        .Options)
         {
-            optionsBuilder.UseSqlite(@"Data Source=Data.db;")
-                          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                          .EnableSensitiveDataLogging();
+        }
+
+        public PoeAppDbContext(DbContextOptions options) : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ItemTag>()
-                        .HasKey(it => new {it.TagKey, Key = it.ItemKey});
+                        .HasKey(it => new {it.TagId, Key = it.ItemKey});
 
             modelBuilder.Entity<ItemTag>()
                         .HasOne(it => it.Tag)
-                        .WithMany(tag => tag.ItemTags)
-                        .HasForeignKey(it => it.TagKey);
+                        .WithMany(tag => tag.BaseItemsLink)
+                        .HasForeignKey(it => it.TagId);
 
             modelBuilder.Entity<ItemTag>()
                         .HasOne(it => it.Item)
-                        .WithMany(bi => bi.ItemTags)
+                        .WithMany(bi => bi.PoeTagsLink)
                         .HasForeignKey(it => it.ItemKey);
-
-            modelBuilder.Entity<PoeTag>()
-                        .HasMany(tag => tag.ItemTags)
-                        .WithOne(tag => tag.Tag)
-                        .HasForeignKey(tag => tag.TagKey);
         }
     }
 }

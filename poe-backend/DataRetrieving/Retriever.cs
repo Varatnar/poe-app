@@ -98,13 +98,13 @@ namespace poe_backend.DataRetrieving
                     Tag = tag
                 };
 
-                if (tag.ItemTags == null)
-                {
-                    tag.ItemTags = new List<ItemTag>();
-                }
+//                if (tag.ItemTags == null)
+//                {
+//                    tag.ItemTags = new List<ItemTag>();
+//                }
 
-                item.ItemTags.Add(newItemTag);
-                tag.ItemTags.Add(newItemTag);
+                item.PoeTagsLink.Add(newItemTag);
+//                tag.ItemTags.Add(newItemTag);
 
             }
 

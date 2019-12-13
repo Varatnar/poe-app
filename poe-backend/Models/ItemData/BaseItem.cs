@@ -26,7 +26,7 @@ namespace poe_backend.Models.ItemData
         //todo: see https://github.com/brather1ng/RePoE/blob/master/RePoE/constants.py#L173 for possible values
         public string ReleaseState { get; set; }
 
-        public List<ItemTag> ItemTags { get; set; } = new List<ItemTag>();
+        public List<ItemTag> PoeTagsLink { get; set; }
 
         public SpriteData VisualIdentity { get; set; }
 
