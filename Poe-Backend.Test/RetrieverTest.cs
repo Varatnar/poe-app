@@ -10,7 +10,7 @@ namespace Poe_Backend.Test
     public class RetrieverTest
     {
         [Test]
-        public void AddWeaponWithTags()
+        public void BaseItemWithTagsNotEmptyOrNullTest()
         {
             var connection = new SqliteConnection("Datasource=:memory:");
             connection.Open();
@@ -37,7 +37,12 @@ namespace Poe_Backend.Test
 
                     foreach (var weapon in data)
                     {
+                        Assert.IsNotNull(weapon.PoeTagsLink);
                         Assert.IsNotEmpty(weapon.PoeTagsLink);
+                        
+                        Assert.IsNotNull(weapon.PoeTagsLink.First());
+                        
+                        Assert.IsTrue(weapon.PoeTagsLink.First().ItemKey != "");
                     }
                 }
             }
