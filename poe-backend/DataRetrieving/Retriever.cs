@@ -11,12 +11,9 @@ namespace poe_backend.DataRetrieving
 {
     public class Retriever
     {
-        private PoeAppDbContext _context;
-
-        public void InitializeBaseItemTable(PoeAppDbContext context)
+        public void InitializeBaseItemTable()
         {
-            _context = context;
-
+            using var context = new PoeAppDbContext();
             using var client = new WebClient();
 
             const string address =
@@ -35,11 +32,11 @@ namespace poe_backend.DataRetrieving
                 switch (typeKey)
                 {
                     case "Metadata/Items/Weapons/TwoHandWeapons/TwoHandSwords":
-                        InsertTwoHandedWeapons(child);
+                        InsertTwoHandedWeapons(context, child);
                         break;
 
                     case "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords":
-                        InsertOneHandedWeapons(child);
+                        InsertOneHandedWeapons(context, child);
                         break;
                     default:
                         if (!unprocessedKey.Contains(typeKey))
@@ -57,23 +54,25 @@ namespace poe_backend.DataRetrieving
             {
                 Console.WriteLine(key);
             }
+
+            context.SaveChanges();
         }
 
-        private void InsertTwoHandedWeapons(JProperty data)
+        private void InsertTwoHandedWeapons(PoeAppDbContext context, JProperty data)
         {
-            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(data);
+            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(context, data);
 
-            _context.TwoHandedSwords.Add(twoHandWeapon);
+            context.TwoHandedSwords.Add(twoHandWeapon);
         }
 
-        private void InsertOneHandedWeapons(JProperty data)
+        private void InsertOneHandedWeapons(PoeAppDbContext context, JProperty data)
         {
-            var oneHandWeapon = CreateWithBasicData<OneHandedSword>(data);
+            var oneHandWeapon = CreateWithBasicData<OneHandedSword>(context, data);
 
-            _context.OneHandedSwords.Add(oneHandWeapon);
+            context.OneHandedSwords.Add(oneHandWeapon);
         }
 
-        private T CreateWithBasicData<T>(JProperty dataHolder) where T : BaseItem, new()
+        private T CreateWithBasicData<T>(PoeAppDbContext context, JProperty dataHolder) where T : BaseItem, new()
         {
             var item = new T
             {
@@ -92,36 +91,47 @@ namespace poe_backend.DataRetrieving
             {
                 var tag = RetrieveOrCreateTag(dataTag.Value<string>());
 
+//                var tag = new PoeTag
+//                {
+//                    Tag = dataTag.Value<string>()
+//                };
+
                 var newItemTag = new ItemTag
                 {
                     Item = item,
                     Tag = tag
                 };
 
-//                if (tag.ItemTags == null)
-//                {
-//                    tag.ItemTags = new List<ItemTag>();
-//                }
+                if (item.PoeTagsLink == null)
+                {
+                    item.PoeTagsLink = new List<ItemTag>();
+                }
 
                 item.PoeTagsLink.Add(newItemTag);
-//                tag.ItemTags.Add(newItemTag);
-
             }
 
             return item;
         }
 
+        private List<PoeTag> _cachedTags = new List<PoeTag>();
+
         private PoeTag RetrieveOrCreateTag(string tagKey)
         {
-            var tag = _context.PoeTags.Find(tagKey);
-
-            if (tag == null)
+            foreach (var cachedTag in _cachedTags)
             {
-                tag = new PoeTag
+                if (cachedTag.Tag.Equals(tagKey))
                 {
-                    Tag = tagKey
-                };
+                    return cachedTag;
+                }
             }
+
+            var tag = new PoeTag
+            {
+                Tag = tagKey
+            };
+
+            _cachedTags.Add(tag);
+
 
             return tag;
         }

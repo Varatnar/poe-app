@@ -29,14 +29,13 @@ namespace poe_backend
             // Reset database and inject poe data
             using (var context = new PoeAppDbContext())
             {
-                var retriever = new Retriever();
-
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-
-                retriever.InitializeBaseItemTable(context);
-                context.SaveChanges();
             }
+
+            var retriever = new Retriever();
+            retriever.InitializeBaseItemTable();
+
 
             if (env.IsDevelopment())
             {
