@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using poe_backend.Database;
@@ -13,7 +14,16 @@ namespace poe_backend.DataRetrieving
     {
         public void InitializeBaseItemTable()
         {
-            using var context = new PoeAppDbContext();
+            InitializeBaseItemTable(new DbContextOptionsBuilder<PoeAppDbContext>()
+                                    .UseSqlite(@"Data Source=Data.db;")
+                                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                                    .EnableSensitiveDataLogging()
+                                    .Options);
+        }
+
+        public void InitializeBaseItemTable(DbContextOptions options)
+        {
+            using var context = new PoeAppDbContext(options);
             using var client = new WebClient();
 
             const string address =
