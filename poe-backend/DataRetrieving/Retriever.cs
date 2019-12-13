@@ -70,19 +70,19 @@ namespace poe_backend.DataRetrieving
 
         private void InsertTwoHandedWeapons(PoeAppDbContext context, JProperty data)
         {
-            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(context, data);
+            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(data);
 
             context.TwoHandedSwords.Add(twoHandWeapon);
         }
 
         private void InsertOneHandedWeapons(PoeAppDbContext context, JProperty data)
         {
-            var oneHandWeapon = CreateWithBasicData<OneHandedSword>(context, data);
+            var oneHandWeapon = CreateWithBasicData<OneHandedSword>(data);
 
             context.OneHandedSwords.Add(oneHandWeapon);
         }
 
-        private T CreateWithBasicData<T>(PoeAppDbContext context, JProperty dataHolder) where T : BaseItem, new()
+        private T CreateWithBasicData<T>(JProperty dataHolder) where T : BaseItem, new()
         {
             var item = new T
             {
@@ -101,11 +101,6 @@ namespace poe_backend.DataRetrieving
             {
                 var tag = RetrieveOrCreateTag(dataTag.Value<string>());
 
-//                var tag = new PoeTag
-//                {
-//                    Tag = dataTag.Value<string>()
-//                };
-
                 var newItemTag = new ItemTag
                 {
                     Item = item,
@@ -123,7 +118,7 @@ namespace poe_backend.DataRetrieving
             return item;
         }
 
-        private List<PoeTag> _cachedTags = new List<PoeTag>();
+        private readonly List<PoeTag> _cachedTags = new List<PoeTag>();
 
         private PoeTag RetrieveOrCreateTag(string tagKey)
         {
