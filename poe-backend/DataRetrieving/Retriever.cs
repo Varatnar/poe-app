@@ -128,6 +128,25 @@ namespace poe_backend.DataRetrieving
 
             item.VisualIdentity = spriteDate;
 
+            // ---- ItemRequirements
+
+            var requirementsHolder = dataHolder.Value.Value<JObject>("requirements");
+
+            // todo: not sure what happens when null (is it actually null ???)
+            if (requirementsHolder != null)
+            {
+                var requirements = new ItemRequirements
+                {
+                    RequiredDexterity = requirementsHolder.Value<int>("dexterity"),
+                    RequiredIntelligence = requirementsHolder.Value<int>("intelligence"),
+                    RequiredStrength = requirementsHolder.Value<int>("strength"),
+                    RequiredLevel = requirementsHolder.Value<int>("level")
+                };
+
+                item.Requirements = requirements;
+            }
+
+
             return item;
         }
 
