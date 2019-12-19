@@ -49,12 +49,11 @@ namespace poe_backend.DataRetrieving
                 switch (typeKey)
                 {
                     case "Metadata/Items/Weapons/TwoHandWeapons/TwoHandSwords":
-                        InsertTwoHandedWeapons(context, child);
+                        InsertTwoHandedSword(context, child);
                         break;
-
                     case "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords":
                     case "Metadata/items/Weapons/OneHandWeapons/OneHandSwords":
-                        InsertOneHandedWeapons(context, child);
+                        InsertOneHandedSword(context, child);
                         break;
                     case "Metadata/Items/Amulets":
                     case "Metadata/Items/Amulet":
@@ -86,6 +85,39 @@ namespace poe_backend.DataRetrieving
                         break;
                     case "Metadata/Items/Rings":
                         InsertRing(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/Claws":
+                        InsertClaw(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/Daggers":
+                        InsertDagger(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/OneHandAxes":
+                        InsertOneHandedAxe(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/OneHandMaces":
+                        InsertOneHandedMace(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/OneHandThrustingSwords":
+                        InsertOneHandedThrustingSword(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/OneHandWeapons/Wands":
+                        InsertWand(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/TwoHandWeapon/FishingRods":
+                        InsertFishingRod(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/TwoHandWeapons/Bows":
+                        InsertBow(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/TwoHandWeapons/Staves":
+                        InsertStaff(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/TwoHandWeapons/TwoHandAxes":
+                        InsertTwoHandedAxe(context, child);
+                        break;
+                    case "Metadata/Items/Weapons/TwoHandWeapons/TwoHandMaces":
+                        InsertTwoHandedMace(context, child);
                         break;
                     default:
                         if (!unprocessedKey.Contains(typeKey))
@@ -138,14 +170,14 @@ namespace poe_backend.DataRetrieving
             context.Helmets.Add(helmet);
         }
 
-        public void InsertQuiver(PoeAppDbContext context, JProperty data)
+        private void InsertQuiver(PoeAppDbContext context, JProperty data)
         {
             var quiver = CreateWithBasicData<Quiver>(data);
 
             context.Quivers.Add(quiver);
         }
 
-        public void InsertShield(PoeAppDbContext context, JProperty data)
+        private void InsertShield(PoeAppDbContext context, JProperty data)
         {
             var shield = CreateWithBasicData<Shield>(data);
 
@@ -184,21 +216,96 @@ namespace poe_backend.DataRetrieving
 
         // ---- WEAPONS
 
-        private void InsertTwoHandedWeapons(PoeAppDbContext context, JProperty data)
+        private void InsertBow(PoeAppDbContext context, JProperty data)
         {
-            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(data);
+            var bow = CreateWithBasicData<Bow>(data);
 
-            context.TwoHandedSwords.Add(twoHandWeapon);
+            context.Bows.Add(bow);
         }
 
-        private void InsertOneHandedWeapons(PoeAppDbContext context, JProperty data)
+        private void InsertClaw(PoeAppDbContext context, JProperty data)
+        {
+            var claw = CreateWithBasicData<Claw>(data);
+
+            context.Claws.Add(claw);
+        }
+
+        private void InsertDagger(PoeAppDbContext context, JProperty data)
+        {
+            var dagger = CreateWithBasicData<Dagger>(data);
+
+            context.Daggers.Add(dagger);
+        }
+
+        private void InsertFishingRod(PoeAppDbContext context, JProperty data)
+        {
+            var fishingRod = CreateWithBasicData<FishingRod>(data);
+
+            context.FishingRods.Add(fishingRod);
+        }
+
+        private void InsertOneHandedAxe(PoeAppDbContext context, JProperty data)
+        {
+            var oneHandedAxe = CreateWithBasicData<OneHandedAxe>(data);
+
+            context.OneHandedAxes.Add(oneHandedAxe);
+        }
+
+        private void InsertOneHandedMace(PoeAppDbContext context, JProperty data)
+        {
+            var oneHandedMace = CreateWithBasicData<TwoHandedSword>(data);
+
+            context.TwoHandedSwords.Add(oneHandedMace);
+        }
+
+        private void InsertOneHandedSword(PoeAppDbContext context, JProperty data)
         {
             var oneHandWeapon = CreateWithBasicData<OneHandedSword>(data);
 
             context.OneHandedSwords.Add(oneHandWeapon);
         }
 
-        // ---- Global 
+        private void InsertOneHandedThrustingSword(PoeAppDbContext context, JProperty data)
+        {
+            var oneHandThrustingSword = CreateWithBasicData<OneHandedThrustingSword>(data);
+
+            context.OneHandedThrustingSwords.Add(oneHandThrustingSword);
+        }
+
+        private void InsertStaff(PoeAppDbContext context, JProperty data)
+        {
+            var staff = CreateWithBasicData<Staff>(data);
+
+            context.Staves.Add(staff);
+        }
+
+        private void InsertTwoHandedAxe(PoeAppDbContext context, JProperty data)
+        {
+            var twoHandedAxe = CreateWithBasicData<TwoHandedAxe>(data);
+
+            context.TwoHandedAxes.Add(twoHandedAxe);
+        }
+
+        private void InsertTwoHandedMace(PoeAppDbContext context, JProperty data)
+        {
+            var twoHandedMace = CreateWithBasicData<TwoHandedMace>(data);
+
+            context.TwoHandedMaces.Add(twoHandedMace);
+        }
+
+        private void InsertTwoHandedSword(PoeAppDbContext context, JProperty data)
+        {
+            var twoHandWeapon = CreateWithBasicData<TwoHandedSword>(data);
+
+            context.TwoHandedSwords.Add(twoHandWeapon);
+        }
+
+        private void InsertWand(PoeAppDbContext context, JProperty data)
+        {
+            var wand = CreateWithBasicData<Wand>(data);
+
+            context.Wands.Add(wand);
+        }
 
         private T CreateWithBasicData<T>(JProperty dataHolder) where T : BaseItem, new()
         {
@@ -232,6 +339,23 @@ namespace poe_backend.DataRetrieving
                     item.PoeTagsLink = new List<ItemTag>();
                 }
 
+                var flag = false;
+
+                foreach (var itemTag in item.PoeTagsLink)
+                {
+                    if (itemTag.Item == newItemTag.Item
+                        && itemTag.Tag == newItemTag.Tag)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    continue;
+                }
+
                 item.PoeTagsLink.Add(newItemTag);
             }
 
@@ -251,6 +375,7 @@ namespace poe_backend.DataRetrieving
             var requirementsHolder = dataHolder.Value.Value<JObject>("requirements");
 
             // todo: not sure what happens when null (is it actually null ???)
+            // ReSharper disable once InvertIf
             if (requirementsHolder != null)
             {
                 var requirements = new ItemRequirements
