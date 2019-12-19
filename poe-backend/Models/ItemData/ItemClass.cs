@@ -4,10 +4,27 @@
     {
         OneHandedSword,
         TwoHandedSword,
+        Claw,
+        Dagger,
+        OneHandedAxe,
+        OneHandedMace,
+        OneHandedThrustingSword,
+        Wand,
+        FishingRod,
+        Bow,
+        Staff,
+        TwoHandedAxe,
+        TwoHandedMace,
+        
         Amulet,
+        Ring,
+        Belt,
+        
+        Quiver,
         BodyArmour,
         Boots,
         Gloves,
-        Helmet
+        Helmet,
+        Shield
     }
 }

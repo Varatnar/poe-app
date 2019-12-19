@@ -31,7 +31,7 @@ namespace poe_backend.Models.ItemData
 
         public ItemRequirements Requirements { get; set; }
 
-//        public IItemProperties Properties { get; set; }
+//        public abstract IItemProperties Properties { get; set; }
 
         //todo: seems to only be with flask, will comment for now
 //        public Buff GrantsBuff { get; set; }
