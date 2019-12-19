@@ -25,6 +25,11 @@ namespace poe_backend.DataRetrieving
 
         public void InitializeBaseItemTable(DbContextOptions options)
         {
+            InitializeBaseItemTable(options, out _);
+        }
+
+        public void InitializeBaseItemTable(DbContextOptions options, out HashSet<string> unprocessedKeyOut)
+        {
             using var context = new PoeAppDbContext(options);
             using var client = new WebClient();
 
@@ -70,6 +75,18 @@ namespace poe_backend.DataRetrieving
                     case "Metadata/Items/Armours/Helmets":
                         InsertHelmet(context, child);
                         break;
+                    case "Metadata/Items/Armours/Shields":
+                        InsertShield(context, child);
+                        break;
+                    case "Metadata/Items/Belts":
+                        InsertBelt(context, child);
+                        break;
+                    case "Metadata/Items/Quivers":
+                        InsertQuiver(context, child);
+                        break;
+                    case "Metadata/Items/Rings":
+                        InsertRing(context, child);
+                        break;
                     default:
                         if (!unprocessedKey.Contains(typeKey))
                         {
@@ -81,6 +98,7 @@ namespace poe_backend.DataRetrieving
             }
 
             Console.WriteLine("List of unprocessed keys :");
+            unprocessedKeyOut = unprocessedKey;
 
             foreach (var key in unprocessedKey)
             {
@@ -90,18 +108,13 @@ namespace poe_backend.DataRetrieving
             context.SaveChanges();
         }
 
-        private void InsertHelmet(PoeAppDbContext context, JProperty data)
+        // ---- ARMOURS
+
+        private void InsertBodyArmour(PoeAppDbContext context, JProperty data)
         {
-            var helmet = CreateWithBasicData<Helmet>(data);
+            var bodyArmour = CreateWithBasicData<BodyArmour>(data);
 
-            context.Helmets.Add(helmet);
-        }
-
-        private void InsertGloves(PoeAppDbContext context, JProperty data)
-        {
-            var gloves = CreateWithBasicData<Glove>(data);
-
-            context.Gloves.Add(gloves);
+            context.BodyArmours.Add(bodyArmour);
         }
 
         private void InsertBoots(PoeAppDbContext context, JProperty data)
@@ -111,11 +124,55 @@ namespace poe_backend.DataRetrieving
             context.Boots.Add(boots);
         }
 
-        private void InsertBodyArmour(PoeAppDbContext context, JProperty data)
+        private void InsertGloves(PoeAppDbContext context, JProperty data)
         {
-            var bodyArmour = CreateWithBasicData<BodyArmour>(data);
+            var gloves = CreateWithBasicData<Glove>(data);
 
-            context.BodyArmours.Add(bodyArmour);
+            context.Gloves.Add(gloves);
+        }
+
+        private void InsertHelmet(PoeAppDbContext context, JProperty data)
+        {
+            var helmet = CreateWithBasicData<Helmet>(data);
+
+            context.Helmets.Add(helmet);
+        }
+
+        public void InsertQuiver(PoeAppDbContext context, JProperty data)
+        {
+            var quiver = CreateWithBasicData<Quiver>(data);
+
+            context.Quivers.Add(quiver);
+        }
+
+        public void InsertShield(PoeAppDbContext context, JProperty data)
+        {
+            var shield = CreateWithBasicData<Shield>(data);
+
+            context.Shields.Add(shield);
+        }
+
+        // ---- JEWELERY
+
+        private void InsertAmulet(PoeAppDbContext context, JProperty data)
+        {
+            var amulet = CreateWithBasicData<Amulet>(data);
+
+            context.Amulets.Add(amulet);
+        }
+
+        private void InsertBelt(PoeAppDbContext context, JProperty data)
+        {
+            var belt = CreateWithBasicData<Belt>(data);
+
+            context.Belts.Add(belt);
+        }
+
+        private void InsertRing(PoeAppDbContext context, JProperty data)
+        {
+            var ring = CreateWithBasicData<Ring>(data);
+
+            context.Rings.Add(ring);
         }
 
         private void InsertTalisman(PoeAppDbContext context, JProperty data)
@@ -124,6 +181,8 @@ namespace poe_backend.DataRetrieving
 
             context.Talismans.Add(talisman);
         }
+
+        // ---- WEAPONS
 
         private void InsertTwoHandedWeapons(PoeAppDbContext context, JProperty data)
         {
@@ -139,12 +198,7 @@ namespace poe_backend.DataRetrieving
             context.OneHandedSwords.Add(oneHandWeapon);
         }
 
-        private void InsertAmulet(PoeAppDbContext context, JProperty data)
-        {
-            var amulet = CreateWithBasicData<Amulet>(data);
-
-            context.Amulets.Add(amulet);
-        }
+        // ---- Global 
 
         private T CreateWithBasicData<T>(JProperty dataHolder) where T : BaseItem, new()
         {
