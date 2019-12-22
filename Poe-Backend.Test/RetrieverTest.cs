@@ -32,48 +32,19 @@ namespace Poe_Backend.Test
                 using (var context = new PoeAppDbContext(options))
                 {
                     var data = context
-                               .OneHandedSwords
-                               .Include(weapon => weapon.PoeTagsLink);
+                               .BaseItems
+                               .Include(item => item.PoeTagsLink);
 
-                    foreach (var weapon in data)
+                    foreach (var baseItem in data)
                     {
-                        Assert.IsNotNull(weapon.PoeTagsLink);
-                        Assert.IsNotEmpty(weapon.PoeTagsLink);
+                        Assert.IsNotNull(baseItem.PoeTagsLink);
+                        Assert.IsNotEmpty(baseItem.PoeTagsLink);
 
-                        Assert.IsNotNull(weapon.PoeTagsLink.First());
+                        Assert.IsNotNull(baseItem.PoeTagsLink.First());
 
-                        Assert.IsTrue(weapon.PoeTagsLink.First().ItemKey != "");
+                        Assert.IsTrue(baseItem.PoeTagsLink.First().ItemKey != "");
                     }
                 }
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-
-        [Test]
-        public void TestRetrieverLeaveTheProperAmountOfBaseItemNotParsed()
-        {
-            var connection = new SqliteConnection("Datasource=:memory:");
-            connection.Open();
-
-            var options = new DbContextOptionsBuilder<PoeAppDbContext>()
-                          .UseSqlite(connection)
-                          .EnableSensitiveDataLogging()
-                          .Options;
-            try
-            {
-                using (var context = new PoeAppDbContext(options))
-                {
-                    context.Database.EnsureCreated();
-                }
-
-                var retriever = new Retriever();
-
-                retriever.InitializeBaseItemTable(options, out var keyOut);
-
-                Assert.AreEqual(8, keyOut.Count);
             }
             finally
             {

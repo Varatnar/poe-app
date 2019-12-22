@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using poe_backend.Database;
 using poe_backend.Models.ItemData;
-using poe_backend.Models.ItemData.Weapons;
 
 namespace Poe_Backend.Test
 {
@@ -34,7 +33,7 @@ namespace Poe_Backend.Test
 
                 using (var context = new PoeAppDbContext(options))
                 {
-                    var baseItem = new OneHandedSword
+                    var baseItem = new BaseItem
                     {
                         Domain = "item",
                         Key = "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords/OneHandSword1",
@@ -45,13 +44,13 @@ namespace Poe_Backend.Test
                         ReleaseState = "released"
                     };
 
-                    context.OneHandedSwords.Add(baseItem);
+                    context.BaseItems.Add(baseItem);
                     context.SaveChanges();
                 }
 
                 using (var context = new PoeAppDbContext(options))
                 {
-                    Assert.AreEqual(1, context.OneHandedSwords.Count());
+                    Assert.AreEqual(1, context.BaseItems.Count());
                 }
             }
             finally
@@ -78,7 +77,7 @@ namespace Poe_Backend.Test
 
                 using (var context = new PoeAppDbContext(options))
                 {
-                    var baseItem = new OneHandedSword
+                    var baseItem = new BaseItem
                     {
                         Domain = "item",
                         Key = "Metadata/Items/Weapons/OneHandWeapons/OneHandSwords/OneHandSword1",
@@ -141,18 +140,18 @@ namespace Poe_Backend.Test
                     };
 
 
-                    context.OneHandedSwords.Add(baseItem);
+                    context.BaseItems.Add(baseItem);
                     context.SaveChanges();
                 }
 
                 using (var context = new PoeAppDbContext(options))
                 {
-                    Assert.AreEqual(1, context.OneHandedSwords.Count());
+                    Assert.AreEqual(1, context.BaseItems.Count());
                     Assert.AreEqual(5, context.PoeTags.Count());
                     Assert.AreEqual(5, context.ItemTags.Count());
 
 
-                    var data = context.OneHandedSwords.Include(sword => sword.PoeTagsLink);
+                    var data = context.BaseItems.Include(sword => sword.PoeTagsLink);
 
                     Assert.AreEqual(5, data.Single().PoeTagsLink.Count);
                 }

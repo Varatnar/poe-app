@@ -1,30 +1,20 @@
-﻿namespace poe_backend.Models.ItemData
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace poe_backend.Models.ItemData
 {
-    public enum ItemClass
+    public class ItemClass : CacheableData
     {
-        OneHandedSword,
-        TwoHandedSword,
-        Claw,
-        Dagger,
-        OneHandedAxe,
-        OneHandedMace,
-        OneHandedThrustingSword,
-        Wand,
-        FishingRod,
-        Bow,
-        Staff,
-        TwoHandedAxe,
-        TwoHandedMace,
-        
-        Amulet,
-        Ring,
-        Belt,
-        
-        Quiver,
-        BodyArmour,
-        Boots,
-        Gloves,
-        Helmet,
-        Shield
+        // public int id { get; set; }
+
+        [Key]
+        public string ItemClassValue { get; set; }
+
+        [NotMapped]
+        public string Key
+        {
+            get => ItemClassValue;
+            set => ItemClassValue = value;
+        }
     }
 }

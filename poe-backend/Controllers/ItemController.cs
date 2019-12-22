@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using poe_backend.Database;
 using poe_backend.Models.ItemData;
-using poe_backend.Models.ItemData.Weapons;
 
 namespace poe_backend.Controllers
 {
@@ -12,19 +11,11 @@ namespace poe_backend.Controllers
     public class ItemController : ControllerBase
     {
         [HttpGet]
-        [Route("oneHandSwords")]
-        public IEnumerable<OneHandedSword> GetAllOneHandedSwords()
+        [Route("bases")]
+        public IEnumerable<BaseItem> GetAllOneHandedSwords()
         {
             using var context = new PoeAppDbContext();
-            return context.OneHandedSwords.ToList();
-        }
-
-        [HttpGet]
-        [Route("twoHandSwords")]
-        public IEnumerable<TwoHandedSword> GetAllTwoHandedSwords()
-        {
-            using var context = new PoeAppDbContext();
-            return context.TwoHandedSwords.ToList();
+            return context.BaseItems.ToList();
         }
 
         [HttpGet]
