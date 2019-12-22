@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace poe_backend.Models.ItemData
 {
-    public class SpriteData : CacheableData
+    public class SpriteData : ICacheableData
     {
         public const string Delimiter = "}{";
 

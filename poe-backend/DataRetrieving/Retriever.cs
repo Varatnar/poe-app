@@ -149,14 +149,14 @@ namespace poe_backend.DataRetrieving
             return item;
         }
 
-        private readonly Dictionary<string, List<CacheableData>> _cachedData =
-            new Dictionary<string, List<CacheableData>>();
+        private readonly Dictionary<string, List<ICacheableData>> _cachedData =
+            new Dictionary<string, List<ICacheableData>>();
 
-        private T RetrieveOrCreateData<T>(string dataIdentifier, string dataKey) where T : CacheableData, new()
+        private T RetrieveOrCreateData<T>(string dataIdentifier, string dataKey) where T : ICacheableData, new()
         {
             if (!_cachedData.ContainsKey(dataIdentifier))
             {
-                _cachedData[dataIdentifier] = new List<CacheableData>();
+                _cachedData[dataIdentifier] = new List<ICacheableData>();
             }
 
             var cache = _cachedData[dataIdentifier];

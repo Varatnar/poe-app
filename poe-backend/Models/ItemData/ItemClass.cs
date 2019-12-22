@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace poe_backend.Models.ItemData
 {
-    public class ItemClass : CacheableData
+    public class ItemClass : ICacheableData
     {
         // public int id { get; set; }
 

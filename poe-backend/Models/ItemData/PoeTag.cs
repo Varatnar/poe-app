@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace poe_backend.Models.ItemData
 {
-    public class PoeTag : CacheableData
+    public class PoeTag : ICacheableData
     {
         [Key]
         public int Id { get; set; }
